@@ -1,0 +1,3 @@
+echo cleaning up...
+docker container rm dashboard_container
+docker image rm dashboard_image:latest
