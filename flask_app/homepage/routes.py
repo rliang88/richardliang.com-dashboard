@@ -3,8 +3,8 @@ from flask import (
     render_template
 )
 
-homepage = Blueprint("homepage", __name__)
+homepage_blueprint = Blueprint("homepage", __name__)
 
-@homepage.route("/")
+@homepage_blueprint.route("/")
 def index():
     return render_template("homepage.html")
