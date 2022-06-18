@@ -3,6 +3,8 @@ from flask import (
     render_template
 )
 
+from ..models import User
+
 login_blueprint = Blueprint("login", __name__)
 
 @login_blueprint.route("/login")
