@@ -1,16 +1,22 @@
 from flask import Flask
+from flask_mongoengine import MongoEngine
+from flask_login import LoginManager
+import os
 
 from flask_app.login.routes import login_blueprint
 from flask_app.homepage.routes import homepage_blueprint
 from flask_app.experience.routes import experience_blueprint
 from flask_app.projects.routes import projects_blueprint
 
+db = MongoEngine()
+login_manager = LoginManager()
+
 def create_app():
     app = Flask(__name__)
 
-    # @app.route('/')
-    # def home():
-    #     return "Hello World! <h1>Hello World!<h1>"
+    app.config["MONGODB_HOST"] = os.getenv("mongodb_uri")
+    db.init_app()
+    login_manager.init_app(app)
 
     # //// registering blueprints ////////////////////
     blueprints = [

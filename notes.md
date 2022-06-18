@@ -1,0 +1,1 @@
+- https://stackoverflow.com/questions/15886469/dropping-all-collections-in-mongoengine
