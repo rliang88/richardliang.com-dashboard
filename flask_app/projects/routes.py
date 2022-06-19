@@ -3,8 +3,6 @@ from flask import (
     render_template
 )
 
-from ..models import User
-
 projects_blueprint = Blueprint("projects", __name__)
 
 @projects_blueprint.route("/projects")
