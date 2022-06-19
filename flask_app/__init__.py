@@ -21,14 +21,14 @@ login_manager = LoginManager()
 def create_app():
     app = Flask(__name__)
 
-    # db = MongoEngine()
-    # login_manager = LoginManager()
-
     app.config["MONGODB_HOST"] = os.getenv("mongodb_uri")
     db.init_app(app)
     login_manager.init_app(app)
 
-    # //// registering blueprints ////////////////////
+    # need to import this as models.py is not implicitly imported
+    from .models import load_user
+
+    # // registering blueprints ////////////////////
     blueprints = [
         login_blueprint,
         homepage_blueprint,
@@ -37,11 +37,6 @@ def create_app():
     ]
     for blueprint in blueprints:
         app.register_blueprint(blueprint)
-    # ////////////////////////////////////////////////
-
-    from .models import User
-    @login_manager.user_loader
-    def load_user(user_id):
-        return User.objects(username=user_id).first()
-
+    # //////////////////////////////////////////////
+    
     return app
