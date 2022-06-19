@@ -17,6 +17,17 @@ from flask_app.projects.routes import projects_blueprint
 db = MongoEngine()
 login_manager = LoginManager()
 
+
+def populate_users():
+    print("Hello World!!")
+    from .models import User
+    me = User(
+        username="test_user",
+        password="helloge"
+    )
+    me.save()
+    print("Yayyy")
+
 # application factory
 def create_app():
     app = Flask(__name__)
@@ -39,6 +50,6 @@ def create_app():
         app.register_blueprint(blueprint)
     # //////////////////////////////////////////////
     
-    
+    app.before_first_request(populate_users)
 
     return app
