@@ -1,12 +1,6 @@
 from flask import Flask
 from flask_mongoengine import MongoEngine
-from flask_login import (
-    LoginManager,
-    current_user,
-    login_user,
-    logout_user,
-    login_required,
-)
+from flask_login import LoginManager
 import os
 
 from flask_app.login.routes import login_blueprint
@@ -18,15 +12,26 @@ db = MongoEngine()
 login_manager = LoginManager()
 
 
+def nuke_collections():
+    print("Nuking database...")
+    for collection_name in db.get_db().list_collection_names():
+        # collection is pymongo.collection.Collection
+        collection = db.get_db()[collection_name]
+        collection.delete_many({})
+    print("done")
+
 def populate_users():
-    print("Hello World!!")
+    nuke_collections()
+    
+    print("populating users...")
     from .models import User
     me = User(
-        username="test_user",
+        username="peepee",
         password="helloge"
     )
     me.save()
-    print("Yayyy")
+
+    print("done")
 
 # application factory
 def create_app():
