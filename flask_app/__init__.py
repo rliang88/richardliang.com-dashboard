@@ -64,4 +64,6 @@ def create_app():
     
     app.before_first_request(nuke_and_seed_users)
 
+    login_manager.login_view = "users.login"
+    
     return app

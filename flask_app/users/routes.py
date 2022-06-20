@@ -19,7 +19,7 @@ from flask_app import bcrypt
 
 users_blueprint = Blueprint("users", __name__)
 
-@users_blueprint.route("/login", methods=["GET", "POST"])
+@users_blueprint.route("/", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for("homepage.index"))
