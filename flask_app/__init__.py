@@ -4,11 +4,6 @@ from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 import os
 
-from flask_app.users.routes import users_blueprint
-from flask_app.homepage.routes import homepage_blueprint
-from flask_app.experience.routes import experience_blueprint
-from flask_app.projects.routes import projects_blueprint
-
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
@@ -42,7 +37,9 @@ def nuke_and_seed_users():
 def create_app():
     app = Flask(__name__)
 
+    app.config["SECRET_KEY"] = os.getenv("secret_key")
     app.config["MONGODB_HOST"] = os.getenv("mongodb_uri")
+    
     db.init_app(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
@@ -51,6 +48,10 @@ def create_app():
     from flask_app.models import load_user
 
     # // registering blueprints ////////////////////
+    from flask_app.users.routes import users_blueprint
+    from flask_app.homepage.routes import homepage_blueprint
+    from flask_app.experience.routes import experience_blueprint
+    from flask_app.projects.routes import projects_blueprint
     blueprints = [
         users_blueprint,
         homepage_blueprint,

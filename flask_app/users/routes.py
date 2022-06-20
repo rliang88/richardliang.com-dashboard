@@ -22,7 +22,7 @@ users_blueprint = Blueprint("users", __name__)
 @users_blueprint.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("homepage_blueprint.index"))
+        return redirect(url_for("homepage.index"))
     
     login_form = LoginForm()
     if login_form.validate_on_submit():
@@ -31,9 +31,9 @@ def login():
             user.password, login_form.password.data
         ):
             login_user(user)
-            return redirect(url_for("homepage_blueprint.index"))
+            return redirect(url_for("homepage.index"))
         else:
             flash("username or password incorrect")
-            return redirect(url_for("users_blueprint.login"))
+            return redirect(url_for("users.login"))
     
     return render_template("login.html", form=login_form)
