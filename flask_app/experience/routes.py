@@ -6,9 +6,9 @@ from flask_login import(
     login_required
 )
 
-experience_blueprint = Blueprint("experience", __name__)
+experience_blueprint = Blueprint("experience", __name__, url_prefix="/experience")
 
-@experience_blueprint.route("/experience")
+@experience_blueprint.route("/")
 @login_required
 def index():
     return render_template("experience.html")
