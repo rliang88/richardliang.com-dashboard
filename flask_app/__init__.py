@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
+from flask_bcrypt import Bcrypt
 import os
 
 from flask_app.login.routes import login_blueprint
@@ -10,7 +11,7 @@ from flask_app.projects.routes import projects_blueprint
 
 db = MongoEngine()
 login_manager = LoginManager()
-
+bcrypt = Bcrypt()
 
 def nuke_collections():
     print("Nuking database...")
@@ -20,18 +21,22 @@ def nuke_collections():
         collection.delete_many({})
     print("done")
 
-def populate_users():
-    nuke_collections()
-    
+def seed_users():    
     print("populating users...")
     from .models import User
-    me = User(
-        username="peepee",
-        password="helloge"
+
+    hashed_password = bcrypt.generate_password_hash(os.getenv("default_pwd")).decode("utf-8")
+    u1 = User(
+        username=os.getenv("default_username"),
+        password=hashed_password
     )
-    me.save()
+    u1.save()
 
     print("done")
+
+def nuke_and_seed_users():
+    nuke_collections()
+    seed_users()
 
 # application factory
 def create_app():
@@ -40,6 +45,7 @@ def create_app():
     app.config["MONGODB_HOST"] = os.getenv("mongodb_uri")
     db.init_app(app)
     login_manager.init_app(app)
+    bcrypt.init_app(app)
 
     # need to import this as models.py is not implicitly imported
     from .models import load_user
@@ -55,6 +61,6 @@ def create_app():
         app.register_blueprint(blueprint)
     # //////////////////////////////////////////////
     
-    app.before_first_request(populate_users)
+    app.before_first_request(nuke_and_seed_users)
 
     return app
