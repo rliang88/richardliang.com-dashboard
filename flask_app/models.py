@@ -11,3 +11,15 @@ class User(db.Document, UserMixin):
 
     def get_id(self):
         return self.username
+
+class Link(db.EmbeddedDocument):
+    link_name = db.StringField(required=True)
+    url = db.URLField(required=True)
+
+class HomepageDetails(db.Document):
+    owner = db.ReferenceField(User, required=True)
+    real_name = db.StringField(required=True)
+    pfp_link = db.URLField(required=True)
+    description = db.StringField(required=True)
+    links = db.EmbeddedDocumentListField(Link)
+    about_me = db.StringField(required=True)

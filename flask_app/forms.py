@@ -9,8 +9,6 @@ from wtforms.validators import (
     InputRequired
 )
 
-from flask_app.models import User
-
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()])
     password = PasswordField("Password", validators=[InputRequired()])
