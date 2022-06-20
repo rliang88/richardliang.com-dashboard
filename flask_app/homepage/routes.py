@@ -13,4 +13,6 @@ homepage_blueprint = Blueprint("homepage", __name__, url_prefix='/homepage')
 @homepage_blueprint.route("/")
 @login_required
 def index():
-    return render_template("homepage.html", username=current_user.username)
+    return render_template(
+        "homepage.html", title=f"{current_user.username}\'s homepage"
+    )
