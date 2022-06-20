@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 import os
 
-from flask_app.login.routes import login_blueprint
+from flask_app.users.routes import users_blueprint
 from flask_app.homepage.routes import homepage_blueprint
 from flask_app.experience.routes import experience_blueprint
 from flask_app.projects.routes import projects_blueprint
@@ -48,11 +48,11 @@ def create_app():
     bcrypt.init_app(app)
 
     # need to import this as models.py is not implicitly imported
-    from .models import load_user
+    from flask_app.models import load_user
 
     # // registering blueprints ////////////////////
     blueprints = [
-        login_blueprint,
+        users_blueprint,
         homepage_blueprint,
         experience_blueprint,
         projects_blueprint

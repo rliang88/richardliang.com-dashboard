@@ -13,12 +13,12 @@ COPY requirements.txt .
 COPY requirements_dev.txt .
 RUN pip install -r requirements_dev.txt
 
-# //// other packages ////////////////////
+# // other packages ////////////////////
 # RUN pip install Flask-WTF
 # RUN pip install Flask-Bcrypt
 # RUN pip install Flask-Login
 # RUN pip install flask-mongoengine
-# ////////////////////////////////////////
+# //////////////////////////////////////
 
 COPY . .
 
