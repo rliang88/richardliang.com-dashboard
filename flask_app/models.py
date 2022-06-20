@@ -1,5 +1,6 @@
 from flask_login import UserMixin
 from flask_app import db, login_manager
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -15,6 +16,10 @@ class User(db.Document, UserMixin):
 class Link(db.EmbeddedDocument):
     link_name = db.StringField(required=True)
     url = db.URLField(required=True)
+    time = db.DateTimeField(default=datetime.utcnow)
+
+    def get_id(self):
+        return self.time
 
 class HomepageDetails(db.Document):
     owner = db.ReferenceField(User, required=True)
@@ -23,3 +28,6 @@ class HomepageDetails(db.Document):
     description = db.StringField(required=True)
     links = db.EmbeddedDocumentListField(Link)
     about_me = db.StringField(required=True)
+
+    def get_id(self):
+        return self.owner.username

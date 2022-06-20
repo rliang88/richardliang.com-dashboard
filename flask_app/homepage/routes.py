@@ -20,6 +20,11 @@ def index():
         owner=load_user(current_user.username)
     ).first()
     
+    print("PEPEGA")
+    print(type(homepage_details.pk))
+
     return render_template(
-        "homepage.html", title=f"{current_user.username}\'s homepage"
+        "homepage.html", 
+        title=f"{current_user.username}\'s homepage"
+
     )
