@@ -4,43 +4,50 @@
     <div class="container">
         <div class="navbar-brand">
             <h1>
-                <b>richardliang.com dashboard</b>
+                <b>RL Dashboard</b>
             </h1>
         </div>
-        <button 
-            class="navbar-toggler" 
-            type="button" 
-            data-bs-toggle="collapse" 
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" 
-            aria-expanded="false" 
-            aria-label="Toggle navigation"
-        >
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        {% if current_user.is_authenticated %}
+            <button 
+                class="navbar-toggler" 
+                type="button" 
+                data-bs-toggle="collapse" 
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" 
+                aria-expanded="false" 
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div 
-            class="collapse navbar-collapse" 
-            id="navbarSupportedContent"
-        >
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('homepage.index')}}">
-                        <h3><b>Homepage</b></h3>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('experience.index')}}">
-                        <h3><b>Experience</b></h3>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('projects.index')}}">
-                        <h3><b>Projects</b></h3>
-                    </a>
-                </li>
-            </ul>
-        </div>
+            <div 
+                class="collapse navbar-collapse" 
+                id="navbarSupportedContent"
+            >
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('homepage.index')}}">
+                            <h5><b>Homepage</b></h5>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('experience.index')}}">
+                            <h5><b>Experience</b></h5>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('projects.index')}}">
+                            <h5><b>Projects</b></h5>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('users.logout')}}">
+                            <h5><b>Logout</b></h5>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
     </div>
 </nav>
 

@@ -36,4 +36,11 @@ def login():
             flash("username or password incorrect")
             return redirect(url_for("users.login"))
     
-    return render_template("login.html", form=login_form)
+    return render_template("login.html", form=login_form, title="login")
+
+
+@users_blueprint.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("users.login"))

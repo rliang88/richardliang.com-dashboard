@@ -20,13 +20,18 @@ def seed_users():
     print("populating users...")
     from .models import User
 
-    hashed_password = bcrypt.generate_password_hash(os.getenv("default_pwd")).decode("utf-8")
-    u1 = User(
-        username=os.getenv("default_username"),
-        password=hashed_password
-    )
-    u1.save()
+    user_seeds = [
+        {"username": os.getenv("default_username"), "password": os.getenv("default_pwd")},
+        {"username": "frogman", "password":"yummy"}
+    ]
 
+    for user in user_seeds:
+        hashed_password = bcrypt.generate_password_hash(user["password"]).decode("utf-8")
+        u = User(
+            username=user["username"],
+            password=hashed_password
+        )
+        u.save()
     print("done")
 
 def nuke_and_seed_users():
