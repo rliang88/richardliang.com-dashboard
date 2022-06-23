@@ -11,7 +11,7 @@ from flask_login import(
     logout_user,
     login_required
 )
-from flask_app.forms import(
+from flask_app.users.forms import(
     LoginForm
 )
 from flask_app.models import (
