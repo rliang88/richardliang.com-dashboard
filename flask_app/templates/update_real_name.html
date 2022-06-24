@@ -1,0 +1,47 @@
+{% extends "header.html" %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h2>Update Real Name</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col"></div>
+
+    <!-- FLASHED MESSAGES -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- FORM -->
+    <form action="" method="post">
+        <!-- CSRF token -->
+        {{form.csrf_token}}
+
+        <!-- full name update box -->
+        <div class="mb-3">
+            {{form.full_name.label(class="form-label")}}
+            {{form.full_name(class="form-control")}}
+
+            {% if form.full_name.errors %}
+                <div class="alert alert-warning" role="alert">
+                    {% for error in form.full_name.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- submit button -->
+        {{ form.update(class="btn btn-primary") }}
+
+    </form>
+</div>
+{% endblock %}

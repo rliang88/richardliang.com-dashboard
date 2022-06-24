@@ -1,14 +1,10 @@
-from tokenize import String
-from wsgiref.validate import validator
-
-from attr import validate
 from flask_wtf import FlaskForm
 from wtforms import (
     StringField,
     SubmitField,
     TextAreaField
 )
-from wtforms.html5 import (
+from wtforms.fields import (
     URLField
 )
 from wtforms.validators import (
@@ -16,7 +12,7 @@ from wtforms.validators import (
 )
 
 class RealNameUpdateForm(FlaskForm):
-    full_name = StringField("Username", validators=[InputRequired()])
+    full_name = StringField("Full Name", validators=[InputRequired()])
     update = SubmitField("Update")
 
 class PFPLinkUpdateForm(FlaskForm):
@@ -27,7 +23,7 @@ class PFPLinkUpdateForm(FlaskForm):
     update = SubmitField("Update")
 
 class DescriptionUpdateForm(FlaskForm):
-    description = TextAreaField("Description", vlaidators=[InputRequired()])
+    description = TextAreaField("Description", validators=[InputRequired()])
     update = SubmitField("Update")
 
 class PersonalLinkUpdateForm(FlaskForm):
