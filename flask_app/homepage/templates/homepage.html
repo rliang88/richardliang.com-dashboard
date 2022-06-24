@@ -1,14 +1,14 @@
 {% extends "header.html" %}
 {% block content %}
-    <!-- real_name -->
+    <!-- full name -->
     <div class="card mb-3">
         <h3 class="card-header">Full Name</h5>
         <div class="card-body">
             <h5 class="card-title">
-                {{homepage_details.real_name}}
+                {{homepage_details.full_name}}
             </h5>
             <!-- TODO -->
-            <a href="{{url_for('homepage.update_real_name')}}" class="btn btn-primary">
+            <a href="{{url_for('homepage.update_full_name')}}" class="btn btn-primary">
                 Edit Full Name
             </a>
         </div>

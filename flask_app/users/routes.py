@@ -26,7 +26,7 @@ users_blueprint = Blueprint("users", __name__, template_folder='./templates')
 def new_default_homepage():
     default_homepage_details = HomepageDetails(
         owner = load_user(current_user.username),
-        real_name = "John Doe",
+        full_name = "John Doe",
         pfp_link = "https://i.imgur.com/rdKHsyK.jpg",
         description = "replace me with a description of yourself",
         about_me = ipsum()

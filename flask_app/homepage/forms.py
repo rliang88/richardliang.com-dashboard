@@ -11,7 +11,7 @@ from wtforms.validators import (
     InputRequired
 )
 
-class RealNameUpdateForm(FlaskForm):
+class FullNameUpdateForm(FlaskForm):
     full_name = StringField("Full Name", validators=[InputRequired()])
     update = SubmitField("Update")
 

@@ -13,7 +13,7 @@ from flask_app.models import (
     load_user
 )
 from flask_app.homepage.forms import (
-    RealNameUpdateForm
+    FullNameUpdateForm
 )
 
 homepage_blueprint = Blueprint("homepage", __name__, url_prefix='/homepage', template_folder='./templates')
@@ -34,14 +34,14 @@ def index():
         homepage_details = homepage_details
     )
 
-@homepage_blueprint.route("/update_real_name", methods=["GET", "POST"])
+@homepage_blueprint.route("/update_full_name", methods=["GET", "POST"])
 @login_required
-def update_real_name():
-    full_name_update_form = RealNameUpdateForm()
+def update_full_name():
+    full_name_update_form = FullNameUpdateForm()
     if full_name_update_form.validate_on_submit():
         homepage_details = HomepageDetails.objects(owner=current_user)
-        homepage_details.update(real_name = full_name_update_form.full_name.data)
+        homepage_details.update(full_name = full_name_update_form.full_name.data)
 
         return redirect(url_for('homepage.index'))
     
-    return render_template("update_real_name.html", form=full_name_update_form, title="Update Full Name")
+    return render_template("update_full_name.html", form=full_name_update_form, title="Update Full Name")

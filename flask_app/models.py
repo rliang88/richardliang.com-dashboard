@@ -31,7 +31,7 @@ class Link(db.EmbeddedDocument):
 
 class HomepageDetails(db.Document):
     owner = db.ReferenceField(User, required=True)
-    real_name = db.StringField(required=True)
+    full_name = db.StringField(required=True)
     pfp_link = db.URLField(required=True)
     description = db.StringField(required=True)
     links = db.EmbeddedDocumentListField(Link)
