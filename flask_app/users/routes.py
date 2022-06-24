@@ -21,7 +21,7 @@ from flask_app.models import (
 )
 from flask_app import bcrypt, ipsum
 
-users_blueprint = Blueprint("users", __name__)
+users_blueprint = Blueprint("users", __name__, template_folder='./templates')
 
 def new_default_homepage():
     default_homepage_details = HomepageDetails(
