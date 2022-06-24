@@ -13,7 +13,8 @@ from flask_app.models import (
     load_user
 )
 from flask_app.homepage.forms import (
-    FullNameUpdateForm
+    FullNameUpdateForm,
+    PFPLinkUpdateForm
 )
 
 homepage_blueprint = Blueprint("homepage", __name__, url_prefix='/homepage', template_folder='./templates')
@@ -44,4 +45,21 @@ def update_full_name():
 
         return redirect(url_for('homepage.index'))
     
-    return render_template("update_full_name.html", form=full_name_update_form, title="Update Full Name")
+    return render_template(
+        "update_full_name.html", form=full_name_update_form, title="Update Full Name"
+    )
+
+@homepage_blueprint.route("/update_pfp_link", methods=["GET", "POST"])
+@login_required
+def update_pfp_link():
+    pfp_link_update_form = PFPLinkUpdateForm()
+
+    if pfp_link_update_form.validate_on_submit():
+        homepage_details = HomepageDetails.objects(owner=current_user)
+        homepage_details.update(pfp_link = pfp_link_update_form.url.data)
+
+        return redirect(url_for('homepage.index'))
+    
+    return render_template(
+        "update_pfp_link.html", form=pfp_link_update_form, title="Update Profile Picture Link"
+    )
