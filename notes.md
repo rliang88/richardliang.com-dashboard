@@ -11,3 +11,4 @@
 ## **Todo**
 - refactor `new_default_homepage()` to future registration code instead of putting it in login code
     - edge case: extremely pepega, but what if new user tries to access their homepage details api without first logging in
+- Email property in homepage
