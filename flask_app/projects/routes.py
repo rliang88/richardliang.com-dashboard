@@ -8,7 +8,7 @@ from flask_login import(
 )
 
 
-projects_blueprint = Blueprint("projects", __name__, url_prefix="/projects")
+projects_blueprint = Blueprint("projects", __name__, url_prefix="/projects", template_folder='./templates')
 
 @projects_blueprint.route("/")
 @login_required

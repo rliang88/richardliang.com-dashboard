@@ -7,7 +7,7 @@ from flask_login import(
     current_user
 )
 
-experience_blueprint = Blueprint("experience", __name__, url_prefix="/experience")
+experience_blueprint = Blueprint("experience", __name__, url_prefix="/experience", template_folder='./templates')
 
 @experience_blueprint.route("/")
 @login_required

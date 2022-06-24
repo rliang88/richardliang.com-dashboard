@@ -1,25 +1,5 @@
 {% extends "header.html" %}
 {% block content %}
-<div class="row">
-    <div class="col">
-        <h2>Update Real Name</h2>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col"></div>
-
-    <!-- FLASHED MESSAGES -->
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-danger">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
     <!-- FORM -->
     <form action="" method="post">
         <!-- CSRF token -->
@@ -43,5 +23,4 @@
         {{ form.update(class="btn btn-primary") }}
 
     </form>
-</div>
 {% endblock %}

@@ -16,7 +16,7 @@ from flask_app.homepage.forms import (
     RealNameUpdateForm
 )
 
-homepage_blueprint = Blueprint("homepage", __name__, url_prefix='/homepage')
+homepage_blueprint = Blueprint("homepage", __name__, url_prefix='/homepage', template_folder='./templates')
 
 def matching_username(username):
     return current_user.username == username
