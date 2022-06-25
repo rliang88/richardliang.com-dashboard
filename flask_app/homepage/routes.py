@@ -20,7 +20,8 @@ from flask_app.homepage.forms import (
     PFPLinkUpdateForm,
     DescriptionUpdateForm,
     PersonalLinkAddForm,
-    PersonalLinkEditForm
+    PersonalLinkEditForm,
+    AboutMeUpdateForm
 )
 
 homepage_blueprint = Blueprint("homepage", __name__, url_prefix='/homepage', template_folder='./templates')
@@ -168,4 +169,24 @@ def add_personal_link():
     
     return render_template(
         "add_personal_link.html", form=link_add_form, title="Homepage - Add New Link"
+    )
+
+@homepage_blueprint.route("/update_about_me", methods=["GET", "POST"])
+@login_required
+def update_about_me():
+    homepage_details = HomepageDetails.objects(owner=current_user).first()
+
+    about_me_update_form = AboutMeUpdateForm(
+        about_me = homepage_details.about_me
+    )
+
+    if about_me_update_form.validate_on_submit():
+        homepage_details.update(
+            about_me = about_me_update_form.about_me.data
+        )
+
+        return redirect(url_for('homepage.index'))
+    
+    return render_template(
+        "update_about_me.html", form=about_me_update_form, title="Homepage - Update About Me"
     )
