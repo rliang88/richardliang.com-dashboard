@@ -3,7 +3,6 @@ from flask_login import (
     current_user
 )
 from flask_app import db, login_manager
-from datetime import datetime
 
 
 @login_manager.user_loader
@@ -27,19 +26,7 @@ class Link(db.Document):
     datetime_str = db.StringField(required=True)
 
     def get_id(self):
-        return [self.owner.username, self.time]
-
-# class Link(db.EmbeddedDocument):
-#     link_name = db.StringField(required=True)
-#     url = db.URLField(required=True)
-#     time = db.DateTimeField(default=datetime.utcnow)
-
-#     def get_id(self):
-#         current_time_str = self.time.strftime(
-#             "%m_%d_%Y__%H_%M_%S_%f"
-#         )
-#         return f"{current_user.username}-{current_time_str}"
-    
+        return [self.owner.username, self.datetime_str]
 
 class HomepageDetails(db.Document):
     owner = db.ReferenceField(User, required=True)

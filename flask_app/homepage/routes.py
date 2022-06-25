@@ -3,7 +3,8 @@ from flask import (
     Blueprint,
     render_template,
     redirect,
-    url_for
+    url_for,
+    flash
 )
 from flask_login import(
     login_required,
@@ -87,12 +88,37 @@ def update_description():
         "update_description.html", form=description_update_form, title="Homepage - Update Description"
     )
 
-# TODO
-@homepage_blueprint.route("/update_link/<link_owner>/<link_datetime>", methods=["GET", "POST"])
+@homepage_blueprint.route(
+    "/update_link/<link_owner_username>/<link_datetime_str>", methods=["GET", "POST"]
+)
 @login_required
-def update_personal_link(link_owner, link_datetime):
-    return url_for('homepage.index')
-    pass
+def edit_personal_link(link_owner_username, link_datetime_str):
+    # // KEEP OTHERS FROM EDITING YOUR LINKS! ////
+    if current_user.username != link_owner_username:
+        flash("You can\'t edit someone else\'s link!")
+        return redirect(url_for('homepage.index'))
+    # ////////////////////////////////////////////
+    
+    personal_link = Link.objects(
+        owner=load_user(link_owner_username), datetime_str = link_datetime_str
+    ).first()
+    
+    personal_link_edit_form = PersonalLinkEditForm(
+        link_name = personal_link.link_name,
+        url = personal_link.url
+    )
+
+    if personal_link_edit_form.validate_on_submit():
+        personal_link.update(
+            link_name = personal_link_edit_form.link_name.data,
+            url = personal_link_edit_form.url.data
+        )
+
+        return redirect(url_for('homepage.index'))
+
+    return render_template(
+        "update_personal_link.html", form=personal_link_edit_form, title="Homepage - Update Personal Link"
+    )
 
 @homepage_blueprint.route("/add_link", methods=["GET", "POST"])
 @login_required
@@ -102,7 +128,7 @@ def add_personal_link():
     if link_add_form.validate_on_submit():
         current_time = datetime.now().strftime("%B%d%Y%H%M%S%f")
         new_link = Link(
-            owner = current_user.username,
+            owner = load_user(current_user.username),
             link_name = link_add_form.link_name.data,
             url = link_add_form.url.data,
             datetime_str = current_time
