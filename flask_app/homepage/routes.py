@@ -14,7 +14,8 @@ from flask_app.models import (
 )
 from flask_app.homepage.forms import (
     FullNameUpdateForm,
-    PFPLinkUpdateForm
+    PFPLinkUpdateForm,
+    DescriptionUpdateForm
 )
 
 homepage_blueprint = Blueprint("homepage", __name__, url_prefix='/homepage', template_folder='./templates')
@@ -40,7 +41,7 @@ def index():
 def update_full_name():
     full_name_update_form = FullNameUpdateForm()
     if full_name_update_form.validate_on_submit():
-        homepage_details = HomepageDetails.objects(owner=current_user)
+        homepage_details = HomepageDetails.objects(owner=current_user).first()
         homepage_details.update(full_name = full_name_update_form.full_name.data)
 
         return redirect(url_for('homepage.index'))
@@ -55,11 +56,29 @@ def update_pfp_link():
     pfp_link_update_form = PFPLinkUpdateForm()
 
     if pfp_link_update_form.validate_on_submit():
-        homepage_details = HomepageDetails.objects(owner=current_user)
+        homepage_details = HomepageDetails.objects(owner=current_user).first()
         homepage_details.update(pfp_link = pfp_link_update_form.url.data)
 
         return redirect(url_for('homepage.index'))
     
     return render_template(
-        "update_pfp_link.html", form=pfp_link_update_form, title="Update Profile Picture Link"
+        "update_pfp_link.html", form=pfp_link_update_form, title="Homepage - Update PFP Link"
+    )
+
+@homepage_blueprint.route("/update_description", methods=["GET", "POST"])
+@login_required
+def update_description():
+    homepage_details = HomepageDetails.objects(owner=current_user).first()
+
+    description_update_form = DescriptionUpdateForm(
+        description = homepage_details.description
+    )
+
+    if description_update_form.validate_on_submit():
+        homepage_details.update(description = description_update_form.description.data)
+
+        return redirect(url_for('homepage.index'))
+    
+    return render_template(
+        "update_description.html", form=description_update_form, title="Homepage - Update Description"
     )

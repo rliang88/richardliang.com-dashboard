@@ -44,7 +44,7 @@
         <h3 class="card-header">Description</h3>
         <div class="card-body">
             <p class="card-text">{{homepage_details.description}}</p>
-            <a href="#" class="btn btn-primary">
+            <a href="{{url_for('homepage.update_description')}}" class="btn btn-primary">
                 Edit Description
             </a>
         </div>
@@ -63,7 +63,13 @@
                         <!-- TODO -->
                         <div class = "col">
                             <a href="#" class="btn btn-primary">
-                                Edit Link
+                                Edit
+                            </a>
+                        </div>
+                        <!-- TODO -->
+                        <div class = "col">
+                            <a href="#" class="btn btn-danger">
+                                Delete
                             </a>
                         </div>
                     </div>
