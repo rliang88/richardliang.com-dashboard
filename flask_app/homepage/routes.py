@@ -18,7 +18,8 @@ from flask_app.homepage.forms import (
     FullNameUpdateForm,
     PFPLinkUpdateForm,
     DescriptionUpdateForm,
-    PersonalLinkAddForm
+    PersonalLinkAddForm,
+    PersonalLinkEditForm
 )
 
 homepage_blueprint = Blueprint("homepage", __name__, url_prefix='/homepage', template_folder='./templates')
