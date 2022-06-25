@@ -63,20 +63,28 @@
                             </div>
                             <div class = "col">
                                 <div class="float-end">
-                                    <!-- TODO -->
-                                    <a 
-                                        href="{{url_for(
-                                            'homepage.edit_personal_link',
-                                            link_owner_username = link.get_id()[0],
-                                            link_datetime_str = link.get_id()[1]
-                                        )}}" 
-                                        class="btn btn-primary mr-3">
-                                        Edit
-                                    </a>
-                                    <!-- TODO -->
-                                    <a href="#" class="btn btn-danger">
-                                        Delete
-                                    </a>
+                                    {% with link_id = link.get_id() %}
+                                        <a 
+                                            href="{{url_for(
+                                                'homepage.edit_personal_link',
+                                                link_owner_username = link_id[0],
+                                                link_datetime_str = link_id[1]
+                                            )}}" 
+                                            class="btn btn-primary mr-3">
+                                            Edit
+                                        </a>
+
+                                        <!-- TODO -->
+                                        <a 
+                                            href="{{url_for(
+                                                'homepage.delete_personal_link',
+                                                link_owner_username = link_id[0],
+                                                link_datetime_str = link_id[1]
+                                            )}}" 
+                                            class="btn btn-danger">
+                                            Delete
+                                        </a>
+                                    {% endwith %}
                                 </div>
                             </div>
                         </div>

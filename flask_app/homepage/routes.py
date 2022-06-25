@@ -120,6 +120,31 @@ def edit_personal_link(link_owner_username, link_datetime_str):
         "update_personal_link.html", form=personal_link_edit_form, title="Homepage - Update Personal Link"
     )
 
+
+@homepage_blueprint.route(
+    "/delete_link/<link_owner_username>/<link_datetime_str>", methods=["GET"]
+)
+@login_required
+def delete_personal_link(link_owner_username, link_datetime_str):
+    # // KEEP OTHERS FROM EDITING YOUR LINKS! ////
+    if current_user.username != link_owner_username:
+        flash("You can\'t edit someone else\'s link!")
+        return redirect(url_for('homepage.index'))
+    # ////////////////////////////////////////////
+
+    # delete the link
+    personal_link = Link.objects(
+        owner=load_user(link_owner_username), datetime_str = link_datetime_str
+    ).first()
+    personal_link_pk = personal_link.pk
+    personal_link.delete()
+
+    # delete the link from homepage_details
+    # there is no cascading delete in mongodb I guess
+    HomepageDetails.objects().update_one(pull__links=personal_link_pk)
+
+    return redirect(url_for('homepage.index'))
+
 @homepage_blueprint.route("/add_link", methods=["GET", "POST"])
 @login_required
 def add_personal_link():
