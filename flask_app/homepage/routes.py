@@ -20,7 +20,7 @@ from flask_app.homepage.forms import (
     PFPLinkUpdateForm,
     DescriptionUpdateForm,
     PersonalLinkAddForm,
-    PersonalLinkEditForm,
+    PersonalLinkUpdateForm,
     AboutMeUpdateForm
 )
 
@@ -93,7 +93,7 @@ def update_description():
     "/update_link/<link_owner_username>/<link_datetime_str>", methods=["GET", "POST"]
 )
 @login_required
-def edit_personal_link(link_owner_username, link_datetime_str):
+def update_personal_link(link_owner_username, link_datetime_str):
     # // KEEP OTHERS FROM EDITING YOUR LINKS! ////
     if current_user.username != link_owner_username:
         flash("You can\'t edit someone else\'s link!")
@@ -104,21 +104,21 @@ def edit_personal_link(link_owner_username, link_datetime_str):
         owner=load_user(link_owner_username), datetime_str = link_datetime_str
     ).first()
     
-    personal_link_edit_form = PersonalLinkEditForm(
+    personal_link_update_form = PersonalLinkUpdateForm(
         link_name = personal_link.link_name,
         url = personal_link.url
     )
 
-    if personal_link_edit_form.validate_on_submit():
+    if personal_link_update_form.validate_on_submit():
         personal_link.update(
-            link_name = personal_link_edit_form.link_name.data,
-            url = personal_link_edit_form.url.data
+            link_name = personal_link_update_form.link_name.data,
+            url = personal_link_update_form.url.data
         )
 
         return redirect(url_for('homepage.index'))
 
     return render_template(
-        "update_personal_link.html", form=personal_link_edit_form, title="Homepage - Update Personal Link"
+        "update_personal_link.html", form=personal_link_update_form, title="Homepage - Update Personal Link"
     )
 
 

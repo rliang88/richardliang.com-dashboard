@@ -36,7 +36,7 @@ class DescriptionUpdateForm(FlaskForm):
     description = TextAreaField("Description", validators=[InputRequired()])
     update = SubmitField("Update")
 
-class PersonalLinkEditForm(FlaskForm):
+class PersonalLinkUpdateForm(FlaskForm):
     link_name = StringField("Link Name", validators=[InputRequired()])
     url = URLField("Link URL", validators=[InputRequired()])
     update = SubmitField("Update")
