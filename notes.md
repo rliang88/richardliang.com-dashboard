@@ -8,8 +8,11 @@
 ### **How to display new-line characters**
 - https://stackoverflow.com/questions/29608841/how-do-i-store-display-paragraphs-with-mongodb
 
+### **Default values for fields in `Flask-WTF`**
+https://stackoverflow.com/questions/21314068/wtforms-field-defaults-suddenly-dont-work
+
 ## **Todo**
 - refactor `new_default_homepage()` to future registration code instead of putting it in login code
     - edge case: extremely pepega, but what if new user tries to access their homepage details api without first logging in
 - Email property in homepage
-- make sure that when user updates their PFP link that the link ends in .jpg or .png
+- For all text update forms, make default value the old value
