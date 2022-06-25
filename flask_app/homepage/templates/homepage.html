@@ -56,23 +56,25 @@
         <div class="card-body">
             <ul class="list-group mb-3">
                 {% for link in homepage_details.links %}
-                    <div class="row g-3">
-                        <div class = "col">
-                            {{link.link_name}} : {{link.url}}
+                    <li class="list-group-item">
+                        <div class="row g-3">
+                            <div class = "col">
+                                <b>{{link.link_name}} :</b> {{link.url}}
+                            </div>
+                            <div class = "col">
+                                <div class="float-end">
+                                    <!-- TODO -->
+                                    <a href="#" class="btn btn-primary mr-3">
+                                        Edit
+                                    </a>
+                                    <!-- TODO -->
+                                    <a href="#" class="btn btn-danger">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <!-- TODO -->
-                        <div class = "col">
-                            <a href="#" class="btn btn-primary">
-                                Edit
-                            </a>
-                        </div>
-                        <!-- TODO -->
-                        <div class = "col">
-                            <a href="#" class="btn btn-danger">
-                                Delete
-                            </a>
-                        </div>
-                    </div>
+                    </li>
                 {% endfor %}
             </ul>
             <!-- TODO -->
