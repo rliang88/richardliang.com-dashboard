@@ -21,7 +21,8 @@ from flask_app.homepage.forms import (
     DescriptionUpdateForm,
     PersonalLinkAddForm,
     PersonalLinkUpdateForm,
-    AboutMeUpdateForm
+    AboutMeUpdateForm,
+    EmailUpdateForm
 )
 
 homepage_blueprint = Blueprint("homepage", __name__, url_prefix='/homepage', template_folder='./templates')
@@ -53,8 +54,24 @@ def update_full_name():
         return redirect(url_for('homepage.index'))
     
     return render_template(
-        "update_full_name.html", form=full_name_update_form, title="Update Full Name"
+        "update_full_name.html", form=full_name_update_form, title="Homepage - Update Full Name"
     )
+
+@homepage_blueprint.route("/update_email", methods=["GET", "POST"])
+@login_required
+def update_email():
+    email_update_form = EmailUpdateForm()
+
+    if email_update_form.validate_on_submit():
+        homepage_details = HomepageDetails.objects(owner=current_user).first()
+        homepage_details.update(email = email_update_form.email.data)
+
+        return redirect(url_for('homepage.index'))
+    
+    return render_template(
+        "update_email.html", form=email_update_form, title="Homepage - Update Email"
+    )
+
 
 @homepage_blueprint.route("/update_pfp_link", methods=["GET", "POST"])
 @login_required

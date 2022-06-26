@@ -31,6 +31,7 @@ class Link(db.Document):
 class HomepageDetails(db.Document):
     owner = db.ReferenceField(User, required=True)
     full_name = db.StringField(required=True)
+    email = db.EmailField(required=True)
     pfp_link = db.URLField(required=True)
     description = db.StringField(required=True)
     links = db.ListField(db.ReferenceField(Link))

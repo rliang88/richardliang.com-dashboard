@@ -6,7 +6,8 @@ from wtforms import (
     TextAreaField
 )
 from wtforms.fields import (
-    URLField
+    URLField,
+    EmailField
 )
 from wtforms.validators import (
     InputRequired,
@@ -15,6 +16,10 @@ from wtforms.validators import (
 
 class FullNameUpdateForm(FlaskForm):
     full_name = StringField("Full Name", validators=[InputRequired()])
+    update = SubmitField("Update")
+
+class EmailUpdateForm(FlaskForm):
+    email = EmailField("Email", validators=[InputRequired()])
     update = SubmitField("Update")
 
 class PFPLinkUpdateForm(FlaskForm):
@@ -30,7 +35,6 @@ class PFPLinkUpdateForm(FlaskForm):
 
         if (not re.search(jpg_regex, field.data)) and (not re.search(png_regex, field.data)):
             raise ValidationError("URL must end in .jpg or .png")
-
 
 class DescriptionUpdateForm(FlaskForm):
     description = TextAreaField("Description", validators=[InputRequired()])

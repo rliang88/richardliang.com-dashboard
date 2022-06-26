@@ -17,5 +17,3 @@ https://stackoverflow.com/questions/6637341/use-tab-to-indent-in-textarea
 ## **Todo**
 - refactor `new_default_homepage()` to future registration code instead of putting it in login code
     - edge case: extremely pepega, but what if new user tries to access their homepage details api without first logging in
-- Email property in homepage
-- Homepage - edit aboutme : use tab to indent in textarea
