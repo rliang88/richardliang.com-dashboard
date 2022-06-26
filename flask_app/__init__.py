@@ -8,6 +8,11 @@ db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 
+def ipsum():
+    path = "/home/appuser/flask_app/ipsum.txt"
+    with open(path, 'r') as f:
+        return f.read()
+
 def nuke_collections():
     print("Nuking database...")
     for collection_name in db.get_db().list_collection_names():
