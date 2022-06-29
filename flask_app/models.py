@@ -58,10 +58,13 @@ class Experience(db.Document):
     about = db.StringField(required=True)
     creation_time = db.StringField(required=True)
 
+    def parse_about(self):
+        return self.about.split('\n')
+
 class ExperienceTechnology(db.Document):
-    owner = db.ReferenceField(User, required=True),
+    owner = db.ReferenceField(User, required=True)
+    experience = db.ReferenceField(Experience, required=True)
     tech = db.StringField()
-    experience = db.ReferenceField
     creation_time = db.StringField(required=True)
 
     def get_id(self):
@@ -81,10 +84,10 @@ class ExperienceBullet(db.Document):
 
 class ExperienceLink(db.Document):
     owner = db.ReferenceField(User, required=True)
+    experience = db.ReferenceField(Experience, required=True)
     link_name = db.StringField(required=True)
     url = db.URLField(required=True)
     creation_time = db.StringField(required=True)
-    experience = db.ReferenceField(Experience, required=True)
 
     def get_id(self):
         return [self.owner.username, self.creation_time]
