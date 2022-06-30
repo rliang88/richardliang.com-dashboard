@@ -31,3 +31,17 @@ session['url'] = url_for('previous_URL')
 ## **Todo**
 - refactor `new_default_homepage()` to future registration code instead of putting it in login code
     - edge case: extremely pepega, but what if new user tries to access their homepage details api without first logging in
+- Common Blueprint
+    - Links
+        - create_link
+        - delete_link
+    - Bullets
+        - create_bullet
+        - update_bullet
+        - delete_bullet
+    - Tech Stack
+        - create_technology
+        - update_technology
+        - delete_technology
+    - About?
+        - update_about
