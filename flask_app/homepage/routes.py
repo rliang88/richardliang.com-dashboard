@@ -4,7 +4,8 @@ from flask import (
     render_template,
     redirect,
     url_for,
-    flash
+    flash,
+    session
 )
 from flask_login import(
     login_required,
@@ -14,7 +15,7 @@ from flask_app.models import (
     HomepageDetails,
     HomepageDetailsLink,
     load_user,
-    Link
+    # Link
 )
 from flask_app.homepage.forms import (
     FullNameUpdateForm,
@@ -34,6 +35,8 @@ def matching_username(username):
 @homepage_blueprint.route("/")
 @login_required
 def index():
+    session['url'] = url_for('homepage.index')
+
     homepage_details = HomepageDetails.objects(
         owner=load_user(current_user.username)
     ).first()
@@ -176,17 +179,17 @@ def add_personal_link():
 
     if link_add_form.validate_on_submit():
         current_time = datetime.now().strftime("%B%d%Y%H%M%S%f")
-        new_link = Link(
+        new_link = HomepageDetailsLink(
             owner = load_user(current_user.username),
             link_name = link_add_form.link_name.data,
             url = link_add_form.url.data,
-            datetime_str = current_time
+            creation_time = current_time
         )
         new_link.save()
 
-        homepage_details = HomepageDetails.objects(owner=current_user).first()
-        homepage_details.links.append(new_link)
-        homepage_details.save()
+        # homepage_details = HomepageDetails.objects(owner=current_user).first()
+        # homepage_details.links.append(new_link)
+        # homepage_details.save()
 
         return redirect(url_for('homepage.index'))
     

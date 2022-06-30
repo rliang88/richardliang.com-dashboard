@@ -4,7 +4,9 @@ from flask import (
     render_template,
     redirect,
     url_for,
-    flash
+    flash,
+    request,
+    session
 )
 from flask_login import(
     login_required,
@@ -12,17 +14,10 @@ from flask_login import(
 )
 from flask_app.models import (
     HomepageDetailsLink,
-    load_user,
-    Link
+    load_user
 )
-from flask_app.homepage.forms import (
-    FullNameUpdateForm,
-    PFPLinkUpdateForm,
-    DescriptionUpdateForm,
-    PersonalLinkAddForm,
-    PersonalLinkUpdateForm,
-    AboutMeUpdateForm,
-    EmailUpdateForm
+from flask_app.common.forms import (
+    UpdateLinkForm
 )
 
 common_blueprint = Blueprint(
@@ -32,7 +27,7 @@ common_blueprint = Blueprint(
 def matching_username(username):
     return current_user.username == username
 
-@homepage_blueprint.route(
+@common_blueprint.route(
     "/update_link/<link_owner_username>/<link_creation_time>", methods=["GET", "POST"]
 )
 @login_required
@@ -53,3 +48,23 @@ def update_link(link_owner_username, link_creation_time):
         if link is not None:
             break
     
+    if link is None:
+        # TODO: return 404
+        pass
+
+    update_link_form = UpdateLinkForm(
+        link_name = link.link_name,
+        url = link.url
+    )
+
+    if update_link_form.validate_on_submit():
+        link.update(
+            link_name = update_link_form.link_name.data,
+            url = update_link_form.url.data
+        )
+
+        return redirect(session['url'])
+    
+    return render_template(
+        "update_link.html", form=update_link_form, title="Update Link Form"
+    )

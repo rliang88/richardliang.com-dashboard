@@ -18,6 +18,16 @@ https://stackoverflow.com/questions/6637341/use-tab-to-indent-in-textarea
 - No join queries (ex. joining 2 collections with the same field name)
 - perhaps should have used planetscale and sqlalchemy for this project
 
+### **How to redirect to the previous page in Flask**
+- https://stackoverflow.com/questions/42284397/flask-how-to-redirect-to-previous-page-after-successful-login
+- use session to store the previous URL
+```
+# session is a dict
+from flask import session
+
+session['url'] = url_for('previous_URL')
+```
+
 ## **Todo**
 - refactor `new_default_homepage()` to future registration code instead of putting it in login code
     - edge case: extremely pepega, but what if new user tries to access their homepage details api without first logging in

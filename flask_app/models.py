@@ -26,7 +26,7 @@ class HomepageDetailsLink(db.Document):
     creation_time = db.StringField(required=True)
 
     def get_id(self):
-        return [self.owner.username, self.datetime_str]
+        return [self.owner.username, self.creation_time]
 
 class HomepageDetails(db.Document):
     owner = db.ReferenceField(User, required=True)
