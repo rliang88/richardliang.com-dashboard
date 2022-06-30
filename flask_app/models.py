@@ -30,6 +30,7 @@ class HomepageDetailsLink(db.Document):
 
 class HomepageDetails(db.Document):
     owner = db.ReferenceField(User, required=True)
+    creation_time = db.StringField(required=True)
     full_name = db.StringField(required=True)
     email = db.EmailField(required=True)
     pfp_link = db.URLField(required=True)
