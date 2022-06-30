@@ -16,6 +16,12 @@ class User(db.Document, UserMixin):
     def get_id(self):
         return self.username
 
+class Link(db.Document):
+    owner = db.ReferenceField(User, required=True)
+    creation_time = db.StringField(required=True)
+
+
+
 class HomepageDetailsLink(db.Document):
     owner = db.ReferenceField(User, required=True)
     link_name = db.StringField(required=True)
