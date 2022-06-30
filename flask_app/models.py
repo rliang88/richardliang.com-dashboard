@@ -16,14 +16,14 @@ class User(db.Document, UserMixin):
     def get_id(self):
         return self.username
 
-class Link(db.Document):
+class HomepageDetailsLink(db.Document):
     owner = db.ReferenceField(User, required=True)
     link_name = db.StringField(required=True)
     url = db.URLField(required=True)
 
     # using StringField instead of DateTimeField since time is part of ID that
     # will be passed into a route URL
-    datetime_str = db.StringField(required=True)
+    creation_time = db.StringField(required=True)
 
     def get_id(self):
         return [self.owner.username, self.datetime_str]
@@ -34,7 +34,6 @@ class HomepageDetails(db.Document):
     email = db.EmailField(required=True)
     pfp_link = db.URLField(required=True)
     description = db.StringField(required=True)
-    links = db.ListField(db.ReferenceField(Link))
     about_me = db.StringField(required=True)
 
     def get_id(self):

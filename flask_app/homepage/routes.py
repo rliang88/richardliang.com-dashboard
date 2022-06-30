@@ -11,7 +11,8 @@ from flask_login import(
     current_user
 )
 from flask_app.models import (
-    HomepageDetails, 
+    HomepageDetails,
+    HomepageDetailsLink,
     load_user,
     Link
 )
@@ -37,10 +38,15 @@ def index():
         owner=load_user(current_user.username)
     ).first()
 
+    homepage_details_links = HomepageDetailsLink.objects(
+        owner=load_user(current_user.username)
+    )
+
     return render_template(
         "homepage.html", 
         title=f"{current_user.username}\'s homepage",
-        homepage_details = homepage_details
+        homepage_details = homepage_details,
+        links = homepage_details_links
     )
 
 @homepage_blueprint.route("/update_full_name", methods=["GET", "POST"])
