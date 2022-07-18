@@ -90,7 +90,10 @@
 
                                         <!-- TODO -->
                                         <a 
-                                            href="#" 
+                                            href="{{url_for(
+                                                'common.delete_link',
+                                                link_creation_time = link_id[1]
+                                            )}}" 
                                             class="btn btn-danger">
                                             Delete
                                         </a>
