@@ -81,10 +81,10 @@
                                         <a 
                                             href="{{url_for(
                                                 'common.update_link',
-                                                link_owner_username = link_id[0],
                                                 link_creation_time = link_id[1]
                                             )}}" 
-                                            class="btn btn-primary mr-3">
+                                            class="btn btn-primary mr-3"
+                                        >
                                             Edit
                                         </a>
 
@@ -102,7 +102,13 @@
                 {% endfor %}
             </ul>
             <!-- TODO -->
-            <a href="{{url_for('homepage.add_personal_link')}}" class="btn btn-primary">
+            <a 
+                href="{{url_for(
+                    'common.create_link',
+                    link_model = 'HomepageDetailsLink'
+                )}}" 
+                class="btn btn-primary"
+            >
                 Add Link
             </a>
         </div>

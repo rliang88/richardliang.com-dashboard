@@ -26,27 +26,25 @@ common_blueprint = Blueprint(
     "common", __name__, url_prefix="/common", template_folder="./templates"
 )
 
-model_names = ["HomepageDetails"]
 link_collections = [HomepageDetailsLink]
 
 def matching_username(username):
     return current_user.username == username
 
 @common_blueprint.route(
-    "/update_link/<link_owner_username>/<link_creation_time>", methods=["GET", "POST"]
+    "/update_link/<link_creation_time>", methods=["GET", "POST"]
 )
 @login_required
-def update_link(link_owner_username, link_creation_time):
-    if not matching_username(link_owner_username):
-        flash("You can\'t edit someone else\'s link!")
-        return redirect(url_for('homepage.index'))
+def update_link(link_creation_time):
+    # if not matching_username(link_owner_username):
+    #     flash("You can\'t edit someone else\'s link!")
+    #     return redirect(url_for('homepage.index'))
     
-    # link_collections = [HomepageDetailsLink]
     
     link = None
     for link_collection in link_collections:
         link = link_collection.objects(
-            owner=load_user(link_owner_username),
+            owner=load_user(current_user.username),
             creation_time = link_creation_time
         ).first()
 
@@ -74,16 +72,35 @@ def update_link(link_owner_username, link_creation_time):
         "update_link.html", form=update_link_form, title="Update Link Form"
     )
 
+
 @common_blueprint.route(
-    "/create_link/<document_type>/<username>/<document_creation_time>", methods=["GET", "POST"]
+    "/create_link/<link_model>", methods=["GET", "POST"]
 )
 @login_required
-def create_link(model_name, username, document_creation_time):
+def create_link(link_model):
     create_link_form = CreateLinkForm()
 
     if create_link_form.validate_on_submit():
-        document = None
-        for model_name_ in model_names:
-            if model_name == "HomepageDetails":
-                document = HomepageDetails.objects(owner=load_user(current_user.username))
-            
+        new_link = None
+        current_time = datetime.now().strftime("%B%d%Y%H%M%S%f")
+
+        # CASE: HomepageDetails
+        if link_model == "HomepageDetailsLink":
+            new_link = HomepageDetailsLink(
+                owner = load_user(current_user.username),
+                link_name = create_link_form.link_name.data,
+                url = create_link_form.url.data,
+                creation_time = current_time
+            )
+        
+        # TODO: CASE: Experience
+
+        new_link.save()
+        return redirect(session['url'])
+    
+    return render_template(
+        "create_link.html", 
+        form=create_link_form, 
+        title=f"Create Link Form - {link_model}"
+    )
+        

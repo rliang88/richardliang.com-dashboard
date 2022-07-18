@@ -45,3 +45,5 @@ session['url'] = url_for('previous_URL')
         - delete_technology
     - About?
         - update_about
+
+- Current Time
