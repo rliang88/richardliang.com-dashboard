@@ -42,22 +42,35 @@ session['url'] = url_for('previous_URL')
 
 ## **Todo**
 
+- currently with `view_experience` endpoint:
+
+  - Add Bullet - will probably go in common (common with projects)
+  - Edit About - will probably go in common (common with homepage)
+  - all the edits
+
 - refactor `new_default_homepage()` to future registration code instead of putting it in login code
   - edge case: extremely pepega, but what if new user tries to access their homepage details api without first logging in
 - See if there's a way to aggregate ExperienceLinks and HomepageLinks in mongoengine
 - Common Blueprint
 
-  - Bullets
-    - create_bullet
-    - update_bullet
-    - delete_bullet
-  - Tech Stack
-    - create_technology
-    - update_technology
-    - delete_technology
-  - About?
-    - update_about
+<<<<<<< HEAD
+
+- Bullets
+  - create_bullet
+  - update_bullet
+  - delete_bullet
+- Tech Stack
+  - create_technology
+  - update_technology
+  - delete_technology
+- About?
+
+  - update_about
 
 - refactor `new_default_homepage()` to future registration code instead of putting it in login code
   - edge case: extremely pepega, but what if new user tries to access their homepage details api without first logging in
-- See if there's a way to aggregate ExperienceLinks and HomepageLinks in mongoengine
+- # See if there's a way to aggregate ExperienceLinks and HomepageLinks in mongoengine
+- Current Time
+
+- Backlog: refactor POST and GET request arguments: - for POST request, send payload in headers - for GET request, send payload in URL
+  > > > > > > > 9811a6d (unpushed stuff in notes)
