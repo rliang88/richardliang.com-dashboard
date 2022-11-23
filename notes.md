@@ -42,6 +42,7 @@ session['url'] = url_for('previous_URL')
 
 ## **Todo**
 
+- bullets in `view_experience` look ass
 - currently with `view_experience` endpoint:
 
   - Add Bullet - will probably go in common (common with projects)
@@ -52,6 +53,15 @@ session['url'] = url_for('previous_URL')
   - edge case: extremely pepega, but what if new user tries to access their homepage details api without first logging in
 - See if there's a way to aggregate ExperienceLinks and HomepageLinks in mongoengine
 - Common Blueprint
+  - Bullets
+    - update_bullet
+    - delete_bullet
+  - Tech Stack
+    - create_technology
+    - update_technology
+    - delete_technology
+  - About?
+    - update_about
 
 <<<<<<< HEAD
 
