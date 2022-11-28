@@ -40,3 +40,7 @@ class UpdateLinkForm(FlaskForm):
 class CreateBulletForm(FlaskForm):
     content = StringField("Content", validators=[InputRequired()])
     submit = SubmitField("Add")
+
+class UpdateBulletForm(FlaskForm):
+    content = StringField("Content", validators=[InputRequired()])
+    update = SubmitField("Update")

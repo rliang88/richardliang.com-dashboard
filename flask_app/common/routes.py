@@ -22,7 +22,8 @@ from flask_app.models import (
 from flask_app.common.forms import (
     CreateLinkForm,
     UpdateLinkForm,
-    CreateBulletForm
+    CreateBulletForm,
+    UpdateBulletForm
 )
 from flask_app.utils import current_time
 
@@ -31,7 +32,7 @@ common_blueprint = Blueprint(
 )
 
 link_collections = [HomepageDetailsLink, ExperienceLink]
-
+bullet_collections = [ExperienceBullet]
 
 @common_blueprint.route(
     "/create_link/<link_model>", 
@@ -174,3 +175,61 @@ def create_bullet(bullet_model, related_document_creation_date):
         form = create_bullet_form,
         title = f"Create Link Form - {bullet_model}"
     )
+
+@common_blueprint.route(
+    "/update_bullet/<bullet_creation_time>", methods=["GET", "POST"]
+)
+@login_required
+def update_bullet(bullet_creation_time):
+    bullet = None
+    for bullet_collection in bullet_collections:
+        bullet = bullet_collection.objects(
+            owner = load_user(current_user.username),
+            creation_time = bullet_creation_time
+        ).first()
+
+        if bullet is not None:
+            break
+
+    if bullet is None:
+        # TODO: return 404
+        pass
+
+    update_bullet_form = UpdateBulletForm(
+        content = bullet.content
+    )
+
+    if update_bullet_form.validate_on_submit():
+        bullet.update(
+            content = update_bullet_form.content.data
+        )
+
+        return redirect(session['url'])
+
+    return render_template(
+        "update_bullet.html", form=update_bullet_form, title="Update Bullet Form"
+    )
+
+    
+@common_blueprint.route(
+    "/delete_bullet/<bullet_creation_time>", methods=["GET", "POST"]
+)
+@login_required
+def delete_bullet(bullet_creation_time):
+    bullet = None
+    for bullet_collection in bullet_collections:
+        bullet = bullet_collection.objects(
+            owner = load_user(current_user.username),
+            creation_time = bullet_creation_time
+        ).first()
+
+        if bullet is not None:
+            break
+
+    if bullet is None:
+        # TODO: return 404
+        pass
+
+    bullet.delete()
+
+    return redirect(session['url'])
