@@ -17,30 +17,25 @@ from flask_app.utils import is_url
 import re
 
 
-class CreateLinkForm(FlaskForm):
+class BaseLinkForm(FlaskForm):
     link_name = StringField("Link Name", validators=[InputRequired()])
     url = URLField("Link URL", validators=[InputRequired()])
-    submit = SubmitField("Add")
 
     def validate_url(form, field):
         if not is_url(field.data):
             raise ValidationError("URL must be formatted correctly")
 
+class CreateLinkForm(BaseLinkForm):
+    submit = SubmitField("Add")
 
-class UpdateLinkForm(FlaskForm):
-    link_name = StringField("Link Name", validators=[InputRequired()])
-    url = URLField("Link URL", validators=[InputRequired()])
+class UpdateLinkForm(BaseLinkForm):
     update = SubmitField("Update")
 
-    def validate_url(form, field):
-        if not is_url(field.data):
-            raise ValidationError("URL must be formatted correctly")
-
-
-class CreateBulletForm(FlaskForm):
+class BaseContentForm(FlaskForm):
     content = StringField("Content", validators=[InputRequired()])
+
+class CreateContentForm(BaseContentForm):
     submit = SubmitField("Add")
 
-class UpdateBulletForm(FlaskForm):
-    content = StringField("Content", validators=[InputRequired()])
+class UpdateContentForm(BaseContentForm):
     update = SubmitField("Update")

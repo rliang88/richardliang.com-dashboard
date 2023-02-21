@@ -22,8 +22,8 @@ from flask_app.models import (
 from flask_app.common.forms import (
     CreateLinkForm,
     UpdateLinkForm,
-    CreateBulletForm,
-    UpdateBulletForm
+    CreateContentForm,
+    UpdateContentForm
 )
 from flask_app.utils import current_time
 
@@ -147,17 +147,17 @@ def delete_link(link_creation_time):
 )
 @login_required
 def create_bullet(bullet_model, related_document_creation_date):
-    create_bullet_form = CreateBulletForm()
+    create_bullet_form = CreateContentForm()
 
     if create_bullet_form.validate_on_submit():
         new_bullet = None
 
-        related_experience = Experience.objects(
-            owner = load_user(current_user.username),
-            creation_time = related_document_creation_date
-        ).first()
-
         if bullet_model == "ExperienceBullet":
+            related_experience = Experience.objects(
+                owner = load_user(current_user.username),
+                creation_time = related_document_creation_date
+            ).first()
+
             new_bullet = ExperienceBullet(
                 owner = load_user(current_user.username),
                 creation_time = current_time(),
@@ -195,7 +195,7 @@ def update_bullet(bullet_creation_time):
         # TODO: return 404
         pass
 
-    update_bullet_form = UpdateBulletForm(
+    update_bullet_form = UpdateContentForm(
         content = bullet.content
     )
 
@@ -233,3 +233,18 @@ def delete_bullet(bullet_creation_time):
     bullet.delete()
 
     return redirect(session['url'])
+
+@common_blueprint.route(
+    "/create_technology/<technology_model>/<related_document_creation_date>", methods=["GET", "POST"]
+)
+@login_required
+def create_technology(technology_model, related_document_creation_date):
+    create_technology_form = CreateContentForm()
+
+    if create_technology_form.validate_on_submit():
+         new_technology = None
+
+         if technology_model == "ExperienceTechnology":
+            pass
+            # TODO: left off here
+
