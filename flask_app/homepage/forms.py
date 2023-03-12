@@ -18,6 +18,7 @@ class FullNameUpdateForm(FlaskForm):
     full_name = StringField("Full Name", validators=[InputRequired()])
     update = SubmitField("Update")
 
+# Hello World
 class EmailUpdateForm(FlaskForm):
     email = EmailField("Email", validators=[InputRequired()])
     update = SubmitField("Update")
@@ -28,7 +29,7 @@ class PFPLinkUpdateForm(FlaskForm):
         validators = [InputRequired()]
     )
     update = SubmitField("Update")
-    
+
     def validate_url(form, field):
         jpg_regex = r"\.jpg$"
         png_regex = r"\.png$"
