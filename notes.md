@@ -40,47 +40,25 @@ session['url'] = url_for('previous_URL')
 - https://stackoverflow.com/questions/14032066/can-flask-have-optional-url-parameters
 - useful for the `common` routes
 
-## **Todo**
+## **todo**
 
-- bullets in `view_experience` look ass
-- currently with `view_experience` endpoint:
+- Homepage:
 
-  - Add Bullet - will probably go in common (common with projects)
-  - Edit About - will probably go in common (common with homepage)
-  - all the edits
+  - edit full name works
+  - edit email works
+  - edit profile picture link works, but picture doesn't display
+  - update description works
+  - personal links work
+  - about me works
 
-- refactor `new_default_homepage()` to future registration code instead of putting it in login code
-  - edge case: extremely pepega, but what if new user tries to access their homepage details api without first logging in
-- See if there's a way to aggregate ExperienceLinks and HomepageLinks in mongoengine
-- Common Blueprint
-  - Bullets
-    - update_bullet
-    - delete_bullet
-  - Tech Stack
-    - create_technology
-    - update_technology
-    - delete_technology
-  - About?
-    - update_about
-
-<<<<<<< HEAD
-
-- Bullets
-  - create_bullet
-  - update_bullet
-  - delete_bullet
-- Tech Stack
-  - create_technology
-  - update_technology
-  - delete_technology
-- About?
-
-  - update_about
-
-- refactor `new_default_homepage()` to future registration code instead of putting it in login code
-  - edge case: extremely pepega, but what if new user tries to access their homepage details api without first logging in
-- # See if there's a way to aggregate ExperienceLinks and HomepageLinks in mongoengine
-- Current Time
-
-- Backlog: refactor POST and GET request arguments: - for POST request, send payload in headers - for GET request, send payload in URL
-  > > > > > > > 9811a6d (unpushed stuff in notes)
+- experience:
+  - can create experience
+  - can view experience
+  - within experience:
+    - CAN'T edit company name
+    - CAN'T edit position
+    - CAN'T edit start and stop dates
+    - CAN'T add tech stack yet
+    - can add bullet points
+    - can add links
+    - can't edit about

@@ -1,29 +1,13 @@
 from datetime import datetime
-from flask import (
-    Blueprint,
-    render_template,
-    redirect,
-    url_for,
-    flash,
-    session
-)
-from flask_login import(
-    login_required,
-    current_user
-)
-from flask_app.models import (
-    HomepageDetails,
-    HomepageDetailsLink,
-    load_user,
-    # Link
-)
-from flask_app.homepage.forms import (
-    FullNameUpdateForm,
-    PFPLinkUpdateForm,
-    DescriptionUpdateForm,
-    AboutMeUpdateForm,
-    EmailUpdateForm
-)
+
+from flask import Blueprint, flash, redirect, render_template, session, url_for
+from flask_login import current_user, login_required
+
+from flask_app.homepage.forms import (AboutMeUpdateForm, DescriptionUpdateForm,
+                                      EmailUpdateForm, FullNameUpdateForm,
+                                      PFPLinkUpdateForm)
+from flask_app.models import (HomepageDetails, HomepageDetailsLink,  # Link
+                              load_user)
 from flask_app.utils import current_time
 
 homepage_blueprint = Blueprint("homepage", __name__, url_prefix='/homepage', template_folder='./templates')
@@ -114,37 +98,38 @@ def update_description():
         "update_description.html", form=description_update_form, title="Homepage - Update Description"
     )
 
-@homepage_blueprint.route(
-    "/update_link/<link_owner_username>/<link_datetime_str>", methods=["GET", "POST"]
-)
-@login_required
-def update_personal_link(link_owner_username, link_datetime_str):
-    # // KEEP OTHERS FROM EDITING YOUR LINKS! ////
-    if current_user.username != link_owner_username:
-        flash("You can\'t edit someone else\'s link!")
-        return redirect(url_for('homepage.index'))
-    # ////////////////////////////////////////////
+# not in use anymore
+# @homepage_blueprint.route(
+#     "/update_link/<link_owner_username>/<link_datetime_str>", methods=["GET", "POST"]
+# )
+# @login_required
+# def update_personal_link(link_owner_username, link_datetime_str):
+#     # // KEEP OTHERS FROM EDITING YOUR LINKS! ////
+#     if current_user.username != link_owner_username:
+#         flash("You can\'t edit someone else\'s link!")
+#         return redirect(url_for('homepage.index'))
+#     # ////////////////////////////////////////////
 
-    personal_link = Link.objects(
-        owner=load_user(link_owner_username), datetime_str = link_datetime_str
-    ).first()
+#     personal_link = Link.objects(
+#         owner=load_user(link_owner_username), datetime_str = link_datetime_str
+#     ).first()
 
-    personal_link_update_form = PersonalLinkUpdateForm(
-        link_name = personal_link.link_name,
-        url = personal_link.url
-    )
+#     personal_link_update_form = PersonalLinkUpdateForm(
+#         link_name = personal_link.link_name,
+#         url = personal_link.url
+#     )
 
-    if personal_link_update_form.validate_on_submit():
-        personal_link.update(
-            link_name = personal_link_update_form.link_name.data,
-            url = personal_link_update_form.url.data
-        )
+#     if personal_link_update_form.validate_on_submit():
+#         personal_link.update(
+#             link_name = personal_link_update_form.link_name.data,
+#             url = personal_link_update_form.url.data
+#         )
 
-        return redirect(url_for('homepage.index'))
+#         return redirect(url_for('homepage.index'))
 
-    return render_template(
-        "update_personal_link.html", form=personal_link_update_form, title="Homepage - Update Personal Link"
-    )
+#     return render_template(
+#         "update_personal_link.html", form=personal_link_update_form, title="Homepage - Update Personal Link"
+#     )
 
 
 @homepage_blueprint.route(
