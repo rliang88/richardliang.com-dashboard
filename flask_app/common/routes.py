@@ -24,6 +24,8 @@ common_blueprint = Blueprint(
 )
 
 link_collections = [HomepageDetailsLink, ExperienceLink]
+
+# Tech stacks can count as bullets since they technically share the same properties
 bullet_collections = [ExperienceBullet]
 
 
@@ -151,7 +153,18 @@ def create_bullet(bullet_model, related_document_creation_date):
                 experience=related_experience,
                 content=create_bullet_form.content.data,
             )
+        elif bullet_model == "ExperienceTechnology":
+            related_experience = Experience.objects(
+                owner=load_user(current_user.username),
+                creation_time=related_document_creation_date,
+            ).first()
 
+            new_technology = ExperienceTechnology(
+                owner=load_user(current_user.username),
+                creation_time=current_time(),
+                experience=related_experience,
+                tech=create_bullet_form.content.data,
+            )
         # TODO: 2nd case - Projects Bullet
 
         new_bullet.save()
@@ -217,16 +230,34 @@ def delete_bullet(bullet_creation_time):
     return redirect(session["url"])
 
 
-# @common_blueprint.route(
-#     "/create_technology/<technology_model>/<related_document_creation_date>", methods=["GET", "POST"]
-# )
-# @login_required
-# def create_technology(technology_model, related_document_creation_date):
-#     create_technology_form = CreateContentForm()
+@common_blueprint.route(
+    "/create_technology/<technology_model>/<related_document_creation_date>",
+    methods=["GET", "POST"],
+)
+@login_required
+def create_technology(technology_model, related_document_creation_date):
+    create_technology_form = CreateContentForm()
 
-#     if create_technology_form.validate_on_submit():
-#          new_technology = None
+    if create_technology_form.validate_on_submit():
+        new_technology = None
 
-#          if technology_model == "ExperienceTechnology":
-#             pass
-#             # TODO: left off here
+        if technology_model == "ExperienceTechnology":
+            related_experience = Experience.objects(
+                owner=load_user(current_user.username),
+                creation_time=related_document_creation_date,
+            ).first()
+
+            new_technology = ExperienceTechnology(
+                owner=load_user(current_user.username),
+                creation_time=current_time(),
+                experience=related_experience,
+                tech=create_technology_form.content.data,
+            )
+
+        new_technology.save()
+        return redirect(session["url"])
+    return render_template(
+        "create_technology.html",
+        form=create_technology_form,
+        title=f"Create Technology Form - {technology_model}",
+    )
