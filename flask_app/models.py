@@ -1,7 +1,5 @@
-from flask_login import (
-    UserMixin,
-    current_user
-)
+from flask_login import UserMixin, current_user
+
 from flask_app import db, login_manager
 
 
@@ -45,7 +43,7 @@ class HomepageDetails(db.Document):
 
     def get_id(self):
         return self.owner.username
-    
+
     def parse_about_me(self):
         return self.about_me.split('\n')
 
@@ -60,14 +58,14 @@ class Experience(db.Document):
 
     def parse_about(self):
         return self.about.split('\n')
-    
+
     def get_id(self):
         return [self.owner.username, self.creation_time]
 
 class ExperienceTechnology(db.Document):
     owner = db.ReferenceField(User, required=True)
     experience = db.ReferenceField(Experience, required=True)
-    tech = db.StringField()
+    tech = db.StringField(required=True)
     creation_time = db.StringField(required=True)
 
     def get_id(self):
