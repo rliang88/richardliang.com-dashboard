@@ -23,9 +23,11 @@ common_blueprint = Blueprint(
     "common", __name__, url_prefix="/common", template_folder="./templates"
 )
 
+# note: even though Bullet and Technology are conceptually
+# the same - both of them are just text, we can't combine them into the same
+# model since then it would be impossible to retreive a certain experience
+# or project's bullets and technology seperately.
 link_collections = [HomepageDetailsLink, ExperienceLink]
-
-# Tech stacks can count as bullets since they technically share the same properties
 bullet_collections = [ExperienceBullet]
 
 

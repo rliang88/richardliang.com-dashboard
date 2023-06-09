@@ -21,7 +21,7 @@ def nuke_collections():
         collection.delete_many({})
     print("done")
 
-def seed_users():    
+def seed_users():
     print("populating users...")
     from .models import User
 
@@ -49,7 +49,7 @@ def create_app():
 
     app.config["SECRET_KEY"] = os.getenv("secret_key")
     app.config["MONGODB_HOST"] = os.getenv("mongodb_uri")
-    
+
     db.init_app(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
@@ -73,9 +73,9 @@ def create_app():
     for blueprint in blueprints:
         app.register_blueprint(blueprint)
     # //////////////////////////////////////////////
-    
+
     app.before_first_request(nuke_and_seed_users)
 
     login_manager.login_view = "users.login"
-    
+
     return app
