@@ -7,6 +7,7 @@ from flask_app.common.forms import (
     CreateLinkForm,
     CreateStringContentForm,
     UpdateLinkForm,
+    UpdateNameForm,
     UpdateStringContentForm,
 )
 from flask_app.constants import bullet_type
@@ -19,13 +20,44 @@ common_blueprint = Blueprint(
 
 link_parent_collections = [HomepageDetails, Experience]
 string_content_parent_collections = [Experience]
+model_map = {"homepage_details": HomepageDetails, "experience": Experience}
 
 
 @common_blueprint.route(
-    "/create_link/<link_model>",
+    "/update_name_like_property/<model>/<document_creation_datetime>/<property_name>",
     methods=["GET", "POST"],
-    defaults={"parent_document_creation_datetime": None},
 )
+@login_required
+def update_name_like_property(model, document_creation_datetime, property_name):
+    document = (
+        model_map[model]
+        .objects(
+            owner=load_user(current_user.username),
+            creation_datetime=document_creation_datetime,
+        )
+        .first()
+    )
+
+    if document is None:
+        # TODO: return 404
+        pass
+
+    update_string_content_form = UpdateStringContentForm(
+        content=getattr(document, property_name)
+    )
+
+    if update_string_content_form.validate_on_submit():
+        document.update(**{property_name: update_string_content_form.content.data})
+
+        return redirect(session["url"])
+
+    return render_template(
+        "update_string_content.html",
+        form=update_string_content_form,
+        title=f"Update {document.__class__.__name__} - {property_name}",
+    )
+
+
 @common_blueprint.route(
     "/create_link/<parent_model>/<parent_document_creation_datetime>",
     methods=["GET", "POST"],
@@ -64,9 +96,9 @@ def create_link(parent_model, parent_document_creation_datetime=None):
     )
 
 
-def get_target_document(
+def get_child_document(
     parent_document_creation_datetime,
-    target_document_creation_datetime,
+    child_document_creation_datetime,
     parent_collections,
     target_collection,
     string_content_type="",
@@ -81,12 +113,12 @@ def get_target_document(
             break
     if target_collection == Link:
         return target_collection.objects(
-            parent=parent_document, creation_datetime=target_document_creation_datetime
+            parent=parent_document, creation_datetime=child_document_creation_datetime
         ).first()
     elif target_collection == StringContent:
         return target_collection.objects(
             parent=parent_document,
-            creation_datetime=target_document_creation_datetime,
+            creation_datetime=child_document_creation_datetime,
             content_type=string_content_type,
         ).first()
 
@@ -98,7 +130,7 @@ def get_target_document(
 @login_required
 def update_link(parent_document_creation_datetime, link_creation_datetime):
     # finding the parent
-    link = get_target_document(
+    link = get_child_document(
         parent_document_creation_datetime,
         link_creation_datetime,
         link_parent_collections,
@@ -128,7 +160,7 @@ def update_link(parent_document_creation_datetime, link_creation_datetime):
 )
 @login_required
 def delete_link(parent_document_creation_datetime, link_creation_datetime):
-    link = get_target_document(
+    link = get_child_document(
         parent_document_creation_datetime,
         link_creation_datetime,
         link_parent_collections,
@@ -188,7 +220,7 @@ def create_string_content(
 def update_string_content(
     parent_document_creation_datetime, string_content_creation_datetime, content_type
 ):
-    string_content_document = get_target_document(
+    string_content_document = get_child_document(
         parent_document_creation_datetime,
         string_content_creation_datetime,
         string_content_parent_collections,
@@ -224,7 +256,7 @@ def update_string_content(
 def delete_string_content(
     parent_document_creation_datetime, string_content_creation_datetime, content_type
 ):
-    string_content_document = get_target_document(
+    string_content_document = get_child_document(
         parent_document_creation_datetime,
         string_content_creation_datetime,
         string_content_parent_collections,
