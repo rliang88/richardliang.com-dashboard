@@ -1,4 +1,4 @@
-// custom JS to type "\t" when I press "TAB" in a textAreaField with id=textbox
+// custom JS to type "\t" when I press "TAB" in a textAreaField with id=rl-dashboard-textbox
 document.getElementById('rl-dashboard-textbox').addEventListener('keydown', function(e){
     if (e.key == 'Tab') {
         e.preventDefault();
