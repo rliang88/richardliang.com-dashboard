@@ -1,6 +1,7 @@
 import base64
 import re
 from datetime import datetime
+from pathlib import Path
 
 
 def current_time() -> str:
@@ -8,8 +9,11 @@ def current_time() -> str:
 
 
 def ipsum():
-    path = "/home/appuser/flask_app/ipsum.txt"
-    with open(path, "r") as f:
+    flask_app_path = Path(__file__).parent  # this is /flask_app
+    ipsum_path = (
+        flask_app_path / "ipsum.txt"
+    ).resolve()  # this is /flask_app/ipsum.txt
+    with open(ipsum_path, "r") as f:
         return f.read()
 
 
