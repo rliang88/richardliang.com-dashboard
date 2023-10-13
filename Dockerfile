@@ -9,9 +9,8 @@ EXPOSE 5000
 
 RUN python -m pip install -U pip
 
-COPY requirements.txt .
 COPY requirements_dev.txt .
-RUN pip install -r requirements_dev.txt
+RUN pip install -r requirements.txt
 
 # // other packages ////////////////////
 # RUN pip install Flask-WTF
